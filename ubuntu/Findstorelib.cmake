@@ -1,7 +1,7 @@
-# - Find Lz4
-# Find the storelib compression library and includes
+# Find storelib
+# Find the storelib library and includes
 #
-# STORELIB_INCLUDE_DIR - where to find storelib.h, etc.
+# STORELIB_INCLUDE_DIR - where to find store_lib_expo.h and etc.
 # STORELIB_LIBRARIES - List of libraries when using storelib.
 # STORELIB_FOUND - True if storelib found.
 
