@@ -15,5 +15,6 @@ This repository contain the files and information customer will need to integrat
 5. Need to update the following files with the paths from the previos scetion
    A. Findstorelib.cmake - need to update the location store_lib_expo.h & storelib.so
    B. db_bench_tool.cc = need to update the location of store_lib_expo.h 
+6. clean cmake cache - CmakeCache.txt
 7. run cmake
 8. db bench is ready.
