@@ -18,3 +18,4 @@
 4. Run the command "echo 65535 /proc/sys/fs/file-max"
 5. Edit the files /etc/systemd/user.conf and /etc/systemd/system.conf
     change the value of DefaultLimitNOFILE to 1048576
+6. Reboot in order to the configuration change to take affect
