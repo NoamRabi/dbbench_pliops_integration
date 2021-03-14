@@ -39,6 +39,8 @@ Modify files and compilation
 
 db bench is ready !!!
 
+10. For good performance it's recommended to follow the configuration changes that described at dbbench_performance.txt  
+
 
 Running examples
 ================
