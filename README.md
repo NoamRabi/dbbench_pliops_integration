@@ -52,6 +52,15 @@ Supported benchmarks
 6. readRandomWriteRandom
 7. seekrandom
 
+Pre-Defined values
+==================
+The following values are predefined and can be changed:
+1. MAX_PLIOPS_KEY - Is used to determine the maximum size of the key supported by pliops, it's planned to be removed in future versions.
+                    (default value 128B)
+2. MAX_PLIOPS_READ_BUFFER - define the size of the buffer used to read objects from the DB, since we are reading objetcs in parallel,
+                            setting this value to big size will overload the server DRAM. (default value - 500B)
+
+
 Running examples
 ================
 **Fill stage, no-PSP:**
