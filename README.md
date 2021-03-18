@@ -42,6 +42,16 @@ db bench is ready !!!
 10. For good performance it's recommended to follow the configuration changes that described at dbbench_performance.txt  
 
 
+Supported benchmarks
+====================
+1. fillseq
+2. overwrite
+3. readRandom
+4. writeSeq
+5. readWhileWriting
+6. readRandomWriteRandom
+7. seekrandom
+
 Running examples
 ================
 **Fill stage, no-PSP:**
