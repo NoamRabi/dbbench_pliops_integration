@@ -39,7 +39,13 @@ Modify files and compilation
 
 db bench is ready !!!
 
-10. For good performance it's recommended to follow the configuration changes that described at dbbench_performance.txt  
+
+Known issues
+===========
+1. On Ubuntu machine you could have issues with the number of open files, it can cause downgrade of perofrmance or erros during run,
+for more details and solution it's recomended to track the instruction at increase_number_of_open_files.txt
+
+2. If there are linkage error related to gflags during cmake, please track the instruction at install_shared_gflags.txt  
 
 
 Supported benchmarks
