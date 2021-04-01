@@ -18,25 +18,26 @@ Pliops KV is an HW accelrator that improve the performance and capacity of SSD d
 
 Modify files and compilation
 ============================
-1. Clone rocks db version 6.2 (tag - origin/6.2.fb)
-2. Install pliops SW deilivery package (13.6.1 or higher).
-3. Go to the repoistory ubuntu library.
-4. Copy the following files instead of existing files:
+1. Clone rocks db version 6.2 (branch - origin/6.2.fb)
+    _git clone https://github.com/facebook/rocksdb.git_
+    _git checkout origin/6.2.fb _
+2. Install pliops SW deilivery package (13.6.4 or higher).
+3. Copy the following files from this repository instead of existing files:
    A. CmakeLists.txt (to main folder)
    B. thirdparty.inc (to main folder)
    C. db_bench_tool.cc (to tools folder)
    D. Findstorelib.cmake (to cmake/modules folder
-5. Find the path of the following files (part of pliops delivery):
+4. Find the path of the following files (part of pliops delivery):
    A. store_lib_expo.h
    B. storlib.so
-6. Update the following files with the paths from the previos scetion
+5. Update the following files with the paths from the previos scetion
    A. Findstorelib.cmake - need to update the location store_lib_expo.h & storelib.so
    B. db_bench_tool.cc = need to update the location of store_lib_expo.h 
-7. Delete cmake cache - CmakeCache.txt
-8. Create build directory - mkdir build
-9. Enter the build directory - cd build
-10. Run cmake (cmake ..)
-11. Run make (make -j )
+6. Delete cmake cache - CmakeCache.txt
+7. Create build directory - mkdir build
+8. Enter the build directory - cd build
+9. Run cmake (cmake ..)
+10. Run make (make -j )
 
 db bench is ready !!!
 
@@ -62,9 +63,7 @@ Supported benchmarks
 Pre-Defined values
 ==================
 The following values are predefined and can be changed:
-1. MAX_PLIOPS_KEY - Is used to determine the maximum size of the key supported by pliops, it's planned to be removed in future versions.
-                    (default value 128B)
-2. MAX_PLIOPS_READ_BUFFER - define the size of the buffer used to read objects from the DB, since we are reading objetcs in parallel,
+1. MAX_PLIOPS_READ_BUFFER - define the size of the buffer used to read objects from the DB, since we are reading objetcs in parallel,
                             setting this value to big size will overload the server DRAM. (default value - 500B)
 
 
