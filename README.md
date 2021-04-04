@@ -23,16 +23,16 @@ Modify files and compilation
     _git checkout origin/6.2.fb _
 2. Install pliops SW deilivery package (13.6.4 or higher).
 3. Copy the following files from this repository instead of existing files:
-   A. CmakeLists.txt (to main folder)
-   B. thirdparty.inc (to main folder)
-   C. db_bench_tool.cc (to tools folder)
-   D. Findstorelib.cmake (to cmake/modules folder
+   1. CmakeLists.txt (to main folder)
+   2. thirdparty.inc (to main folder)
+   3. db_bench_tool.cc (to tools folder)
+   4. Findstorelib.cmake (to cmake/modules folder
 4. Find the path of the following files (part of pliops delivery):
-   A. store_lib_expo.h
-   B. storlib.so
+   1. store_lib_expo.h
+   2. storlib.so
 5. Update the following files with the paths from the previos scetion
-   A. Findstorelib.cmake - need to update the location store_lib_expo.h & storelib.so
-   B. db_bench_tool.cc = need to update the location of store_lib_expo.h 
+   1. Findstorelib.cmake - need to update the location of store_lib_expo.h [line 10] & storelib.so [line 14]
+   2. db_bench_tool.cc = need to update the location of store_lib_expo.h [line 78]
 6. Delete cmake cache - CmakeCache.txt
 7. Create build directory - mkdir build
 8. Enter the build directory - cd build
