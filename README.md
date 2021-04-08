@@ -44,10 +44,10 @@ db bench is ready !!!
 
 Known issues
 ============
-1. On Ubuntu machine you could have issues with the number of open files, it can cause downgrade of perofrmance or erros during run,
-for more details and solution it's recomended to track the instruction at increase_number_of_open_files.txt
+1. On non-pliops runs we may encounter issues with the number of open files, it can cause db bench to get stuck during run,
+for more details and solutions please track the instructions at increase_number_of_open_files.txt
 
-2. If there are linkage error related to gflags during cmake, please track the instruction at install_shared_gflags.txt  
+2. During cmake we may face linkage errors related to gflags, please track the instruction at install_shared_gflags.txt  
 
 
 Supported benchmarks
@@ -60,11 +60,13 @@ Supported benchmarks
 6. readRandomWriteRandom
 7. seekrandom
 
+
 Pre-Defined values
 ==================
 The following values are predefined and can be changed:
 1. MAX_PLIOPS_READ_BUFFER - define the size of the buffer used to read objects from the DB, since we are reading objetcs in parallel,
                             setting this value to big size will overload the server DRAM. (default value - 500B)
+2. MAX_PLIOPS_KEY - rename for pliops KEY_SIZE_MAX located at store_lib_expo.h define the max size of pliops key.
 
 
 Running examples
