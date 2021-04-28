@@ -61,14 +61,6 @@ Supported benchmarks
 7. seekrandom
 
 
-Pre-Defined values
-==================
-The following values are predefined and can be changed:
-1. MAX_PLIOPS_READ_BUFFER - define the size of the buffer used to read objects from the DB, since we are reading objetcs in parallel,
-                            setting this value to big size will overload the server DRAM. (default value - 500B)
-2. MAX_PLIOPS_KEY - rename for pliops KEY_SIZE_MAX located at store_lib_expo.h define the max size of pliops key.
-
-
 Running examples
 ================
 **Fill stage, no-PSP:**

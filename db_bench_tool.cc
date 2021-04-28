@@ -89,8 +89,6 @@ using GFLAGS_NAMESPACE::SetUsageMessage;
 
 static PLIOPS_DB_t pliopsDB;
 static uint8_t instanceId;
-#define MAX_PLIOPS_READ_BUFFER 500
-#define MAX_PLIOPS_KEY 256
 
 bool PliopsOpenDB(uint8_t instance)
 {
@@ -103,6 +101,7 @@ bool PliopsOpenDB(uint8_t instance)
 bool PliopsCloseDB(void)
 {
     PLIOPS_STATUS_et returnValue = PLIOPS_CloseDB(pliopsDB);
+    printf("Pilops Close DB - %d\n", instanceId);
     if (returnValue != PLIOPS_STATUS_OK ) {
         printf(" Pliops Failed To Close The Device\n");
         return false;
@@ -110,33 +109,27 @@ bool PliopsCloseDB(void)
     return true;
 }
 
-
-
 int PliopsPutCommand(const char * key_buffer, size_t key_size, const char * data, const uint32_t data_length)
 {
     PLIOPS_STATUS_et returnValue;
-    char pliops_key_buffer[MAX_PLIOPS_KEY] = {0};
-    memcpy(pliops_key_buffer, &instanceId, sizeof(instanceId));
-    memcpy(pliops_key_buffer + sizeof(instanceId), key_buffer, (int)key_size);
-    returnValue = PLIOPS_Put(pliopsDB, (void *)  pliops_key_buffer, key_size, (void *) data, data_length, false);
-//    returnValue = PLIOPS_Put(pliopsDB, (void *)  key_buffer, key_size, (void *) data, data_length, false);
+    char* start = const_cast<char*>(key_buffer);
+    memcpy(start, &instanceId, sizeof(instanceId));
+    returnValue = PLIOPS_Put(pliopsDB, (void *)  key_buffer, key_size, (void *) data, data_length, false);
     return (int)returnValue;
 }
 
 int PliopsGetCommand(const char * key_buffer, size_t key_size, const uint32_t data_length)
 {
     PLIOPS_STATUS_et returnValue;
-    char pliops_key_buffer[MAX_PLIOPS_KEY] = {0};
-    memcpy(pliops_key_buffer, &instanceId, sizeof(instanceId));
-    memcpy(pliops_key_buffer + sizeof(instanceId), key_buffer, (int)key_size);
-    char* data = new char[MAX_PLIOPS_READ_BUFFER];
+    char* start = const_cast<char*>(key_buffer);
+    memcpy(start, &instanceId, sizeof(instanceId));
+    char* data = (char*) malloc(data_length * sizeof(char));
     unsigned int objectSize = 0;
-    returnValue = PLIOPS_Get(pliopsDB, (void *) pliops_key_buffer, key_size, (void *) data, data_length, &objectSize);
-//  returnValue = PLIOPS_Get(pliopsDB, (void *) key_buffer, key_size, (void *) data, data_length, &objectSize);
+    returnValue = PLIOPS_Get(pliopsDB, (void *) key_buffer, key_size, (void *) data, data_length, &objectSize);
+    free(data);
     return (int)returnValue;
 }
 // END PLIOPS CHANGES
-
 
 DEFINE_string(
     benchmarks,
@@ -4086,14 +4079,13 @@ void VerifyDBFromDB(std::string& truth_db_name) {
           s = blobdb->PutWithTTL(write_options_, key, val, ttl);
 #endif  //  ROCKSDB_LITE
         } else if (FLAGS_num_column_families <= 1) {
-            if (!pliops_disk_) {
+	    if (!pliops_disk_) {
                 batch.Put(key, gen.Generate(value_size_));
             }
             else {
-                const char *data_buffer = gen.Generate(value_size_).data();
-                int ret = PliopsPutCommand(key.data(), key.size(), data_buffer, value_size_);
+                int ret = PliopsPutCommand(key.data(), key.size(), gen.Generate(value_size_).data(), value_size_);
                 if (ret != 0) {
-                    printf("Pliops Put Failed: %d\n",ret);
+                    printf("Pliops put failed: %d\n",ret);
                     return;
                 }
             }
@@ -4649,7 +4641,7 @@ void VerifyDBFromDB(std::string& truth_db_name) {
     Slice key = AllocateKey(&key_guard);
     PinnableSlice pinnable_val;
 
-    Duration duration(FLAGS_duration, reads_); 
+    Duration duration(FLAGS_duration, reads_);
     while (!duration.Done(1)) {
       DBWithColumnFamilies* db_with_cfh = SelectDBWithCfh(thread);
       // We use same key_rand as seed for key and column family so that we can
@@ -4683,22 +4675,16 @@ void VerifyDBFromDB(std::string& truth_db_name) {
                                   &pinnable_val);
         }
         else {
-            //NOTE: pinnable_val.size is update to pliops_read_maximun in this function db_with_cfh->db->Get but we.....
-            int ret = PliopsGetCommand(key.data(), key.size(), MAX_PLIOPS_READ_BUFFER/*pinnable_val.size()*/);
+            int ret = PliopsGetCommand(key.data(), key.size(), pinnable_val.size()/*pinnable_val.size()*/);
             if (ret != 0)  {
-                printf("Pliops Get failed - %d\n",ret);
+                printf("Pliops get failed - %d\n",ret);
                 s.Corruption();//Note: Failed to get key so we change the status , maybe we should exit
             }
          }
       }
       if (s.ok()) {
         found++;
-        if (pliops_disk_) {
-           bytes += key.size() + MAX_PLIOPS_READ_BUFFER;//Note: If we arrived here we know GET operation passed, and we read MAX_PLIOPS_READ_BUFFER bytes
-        }
-        else {
-           bytes += key.size() + pinnable_val.size();
-        } 
+        bytes += key.size() + pinnable_val.size();
       } else if (!s.IsNotFound()) {
         fprintf(stderr, "Get returned an error: %s\n", s.ToString().c_str());
         abort();
@@ -5310,16 +5296,12 @@ void VerifyDBFromDB(std::string& truth_db_name) {
           s = db->Merge(write_options_, key, gen.Generate(value_size_));
         }
       } else {
-        char *data_buffer = (char *)gen.Generate(value_size_).data();
-        char *keyData= (char *)key.data();
-        int ret = PliopsPutCommand(keyData, key.size(), data_buffer, value_size_);
+        int ret = PliopsPutCommand(key.data(), key.size(), gen.Generate(value_size_).data(), value_size_);
         if (ret != 0) {
-          printf("Pliops Put Failed %d \n",ret);
-          s.Corruption();
+          printf("Pliops put failed %d \n",ret);
           exit(1);
-        }               
+        }
       }
-
       written++;
 
       if (!s.ok()) {
@@ -5430,7 +5412,6 @@ void VerifyDBFromDB(std::string& truth_db_name) {
       keys[i] = key.ToString() + suffixes[i];
       key_slices[i] = keys[i];
       s = db->Get(readoptionscopy, key_slices[i], value);
-
       if (!s.ok() && !s.IsNotFound()) {
         fprintf(stderr, "get error: %s\n", s.ToString().c_str());
         values[i] = "";
@@ -5568,13 +5549,12 @@ void VerifyDBFromDB(std::string& truth_db_name) {
                 found++;
             }
         } else {
-            char * keyData = (char*) key.data();
-            int ret = PliopsGetCommand(keyData, key.size(), MAX_PLIOPS_READ_BUFFER);
+            int ret = PliopsGetCommand(key.data(), key.size(), value_size_);
             if (ret != 0) {
-                printf("Pliops Get failed: %d\n", ret);
+                printf("Pliops get failed: %d\n", ret);
+                exit(1);
             }
         }
-
         get_weight--;
         reads_done++;
         thread->stats.FinishedOps(nullptr, db, 1, kRead);
@@ -5589,15 +5569,12 @@ void VerifyDBFromDB(std::string& truth_db_name) {
                 exit(1);
             }
         } else {
-            char *data_buffer = (char *)gen.Generate(value_size_).data();
-            char *keyData= (char *)key.data();
-            int ret = PliopsPutCommand(keyData, key.size(), data_buffer, value_size_);
+            int ret = PliopsPutCommand(key.data(), key.size(), gen.Generate(value_size_).data(), value_size_);
             if (ret != 0) {
-                printf("Pliops Put Failed %d \n",ret);
+                printf("Pliops put failed %d \n",ret);
                 exit(1);
             }
         }
-
         put_weight--;
         writes_done++;
         thread->stats.FinishedOps(nullptr, db, 1, kWrite);
@@ -6432,7 +6409,6 @@ int db_bench_tool(int argc, char** argv) {
         return -1;
     }
   }
-
 
 #ifndef ROCKSDB_LITE
   if (FLAGS_print_malloc_stats) {
