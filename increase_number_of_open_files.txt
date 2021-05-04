@@ -15,7 +15,7 @@ First check the number of open files the system is support by using "ulimit -n" 
 		root hard     nofile         1048576   
 2. Run the command "echo 1048576 /proc/sys/fs/file-max"
 3. Edit the files /etc/systemd/user.conf and /etc/systemd/system.conf
-    change the value of DefaultLimitNOFILE to 1048576
+    change the value of DefaultLimitNOFILE to 1048576, and uncomment the line
 4. Ubuntu only:
     A. Edit the file /etc/sysctl.conf 
        change the value of fs.file-max to 1048576
