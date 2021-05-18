@@ -21,23 +21,26 @@ Modify files and compilation
 1. Clone rocks db version 6.2 (branch - origin/6.2.fb)
     _git clone https://github.com/facebook/rocksdb.git_
     _git checkout origin/6.2.fb _
-2. Install pliops SW deilivery package (13.6.4 or higher).
-3. Copy the following files from this repository instead of existing files:
+2. Install pliops deilivery package (1.16.0.0 or higher).
+3. Install compression libraries if needed.
+   1. Ubuntu: _sudo apt-get install zlib1g-dev liblz4-dev_
+   2. Centos: _sudo yum install zlib zlib-devel lz4-devel_
+5. Copy the following files from this repository instead of existing files:
    1. CmakeLists.txt (to main folder)
    2. thirdparty.inc (to main folder)
    3. db_bench_tool.cc (to tools folder)
    4. Findstorelib.cmake (to cmake/modules folder
-4. Find the path of the following files (part of pliops delivery):
+6. Find the path of the following files (part of pliops delivery):
    1. store_lib_expo.h
    2. storlib.so
-5. Update the following files with the paths from the previos scetion
+7. Update the following files with the paths from the previos scetion
    1. Findstorelib.cmake - need to update the location of store_lib_expo.h [line 10] & storelib.so [line 14]
    2. db_bench_tool.cc = need to update the location of store_lib_expo.h [line 78]
-6. Delete cmake cache - CmakeCache.txt
-7. Create build directory - mkdir build
-8. Enter the build directory - cd build
-9. Run cmake (cmake ..)
-10. Run make (make -j )
+8. Delete cmake cache - CmakeCache.txt
+9. Create build directory - mkdir build
+10. Enter the build directory - cd build
+11. Run cmake (cmake ..)
+12. Run make (make -j )
 
 db bench is ready !!!
 
