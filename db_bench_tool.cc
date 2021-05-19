@@ -94,7 +94,7 @@ bool PliopsOpenDB(uint8_t instance)
 {
     instanceId = instance;
     printf("Pilops Open DB - %d\n", instanceId);
-    pliopsDB = PLIOPS_OpenDB(1);
+    pliopsDB = PLIOPS_OpenDB(1, NULL);
     return true;
 }
 
