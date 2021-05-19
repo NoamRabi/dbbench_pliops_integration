@@ -26,7 +26,7 @@ Modify files and compilation
    1. Ubuntu: _sudo apt-get install zlib1g-dev liblz4-dev_
    2. Centos: _sudo yum install zlib zlib-devel lz4-devel_
 5. Copy the following files from this repository instead of existing files:
-   1. CmakeLists.txt (to main folder)
+   1. CMakeLists.txt (to main folder)
    2. thirdparty.inc (to main folder)
    3. db_bench_tool.cc (to tools folder)
    4. Findstorelib.cmake (to cmake/modules folder
@@ -36,7 +36,7 @@ Modify files and compilation
 7. Update the following files with the paths from the previos scetion
    1. Findstorelib.cmake - need to update the location of store_lib_expo.h [line 10] & storelib.so [line 14]
    2. db_bench_tool.cc = need to update the location of store_lib_expo.h [line 78]
-8. Delete cmake cache if exist - CmakeCache.txt
+8. Delete cmake cache if exist - CMakeCache.txt
 9. Create build directory - mkdir build
 10. Enter the build directory - cd build
 11. Run cmake (cmake ..)
