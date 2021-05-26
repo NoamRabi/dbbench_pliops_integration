@@ -7,11 +7,11 @@
 
 find_path(STORELIB_INCLUDE_DIR
   NAMES store_lib_expo.h
-  HINTS /home/pliops/workspace/roadster_sw/host/storelib)
+  HINTS /etc/pliops)
 
 find_library(STORELIB_LIBRARIES
   NAMES storelib
-  HINTS /home/pliops/workspace/roadster_sw/host/storelib/release/lib)
+  HINTS /etc/pliops)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(storelib DEFAULT_MSG STORELIB_LIBRARIES STORELIB_INCLUDE_DIR)
