@@ -30,12 +30,12 @@ Modify files and compilation
    2. thirdparty.inc (to main folder)
    3. db_bench_tool.cc (to tools folder)
    4. Findstorelib.cmake (to cmake/modules folder
-6. Find the path of the following files (part of pliops delivery):
+6. Find the path of the following files (part of pliops delivery, should be located at /etc/pliops):
    1. store_lib_expo.h
    2. storlib.so
-7. Update the following files with the paths from the previos scetion
-   1. Findstorelib.cmake - need to update the location of store_lib_expo.h [line 10] & storelib.so [line 14]
-   2. db_bench_tool.cc = need to update the location of store_lib_expo.h [line 78]
+7. If the above files aren't located at '/etc/pliops' you should update their location at the following files:
+   1. cmake/modules/Findstorelib.cmake - need to update the location of store_lib_expo.h [line 10] & storelib.so [line 14]
+   2. tools/db_bench_tool.cc = need to update the location of store_lib_expo.h [line 78]
 8. Delete cmake cache if exist - CMakeCache.txt
 9. Create build directory - mkdir build
 10. Enter the build directory - cd build
