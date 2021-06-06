@@ -23,8 +23,8 @@ Modify files and compilation
     2. _git checkout origin/6.2.fb _
 2. Install pliops deilivery package (1.16.0.0 or higher).
 3. Install compression libraries if needed.
-   1. Ubuntu: _sudo apt-get install zlib1g-dev liblz4-dev_
-   2. Centos: _sudo yum install zlib zlib-devel lz4-devel_
+   1. Ubuntu: _sudo apt-get install zlib1g-dev libzstd-dev liblz4-dev_
+   2. Centos: _sudo yum install zlib zlib-devel libzstd-devel lz4-devel_
 5. Copy the following files from this repository instead of existing files:
    1. CMakeLists.txt (to main folder)
    2. thirdparty.inc (to main folder)
