@@ -75,7 +75,7 @@
 #include "utilities/merge_operators.h"
 #include "utilities/merge_operators/bytesxor.h"
 #include "utilities/persistent_cache/block_cache_tier.h"
-#include "../roadster_sw/host/storelib/store_lib_expo.h"
+#include "/etc/pliops/store_lib_expo.h"
 
 #ifdef OS_WIN
 #include <io.h>  // open/close
