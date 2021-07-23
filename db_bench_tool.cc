@@ -852,6 +852,11 @@ DEFINE_string(compression_type, "snappy",
 static enum rocksdb::CompressionType FLAGS_compression_type_e =
     rocksdb::kSnappyCompression;
 
+DEFINE_string(bottommost_compression, "none",
+              "Algorithm to use to compress the lower level of the database");
+static enum rocksdb::CompressionType FLAGS_bottommost_compression_e =
+    rocksdb::kDisableCompressionOption;
+
 DEFINE_int64(sample_for_compression, 0, "Sample every N block for compression");
 
 DEFINE_int32(compression_level, rocksdb::CompressionOptions().level,
@@ -2271,7 +2276,9 @@ class Benchmark {
     }
 
     auto compression = CompressionTypeToString(FLAGS_compression_type_e);
+    auto bottom_compression = CompressionTypeToString(FLAGS_bottommost_compression_e);
     fprintf(stdout, "Compression: %s\n", compression.c_str());
+    fprintf(stdout, "Bottom most compression: %s\n", bottom_compression.c_str());
     fprintf(stdout, "Compression sampling rate: %" PRId64 "\n",
             FLAGS_sample_for_compression);
 
@@ -3586,6 +3593,7 @@ void VerifyDBFromDB(std::string& truth_db_name) {
     options.level0_slowdown_writes_trigger =
       FLAGS_level0_slowdown_writes_trigger;
     options.compression = FLAGS_compression_type_e;
+    options.bottommost_compression = FLAGS_bottommost_compression_e;
     options.sample_for_compression = FLAGS_sample_for_compression;
     options.WAL_ttl_seconds = FLAGS_wal_ttl_seconds;
     options.WAL_size_limit_MB = FLAGS_wal_size_limit_MB;
@@ -6328,6 +6336,8 @@ int db_bench_tool(int argc, char** argv) {
 
   FLAGS_compression_type_e =
     StringToCompressionType(FLAGS_compression_type.c_str());
+  FLAGS_bottommost_compression_e =
+    StringToCompressionType(FLAGS_bottommost_compression.c_str());
 
 #ifndef ROCKSDB_LITE
   std::unique_ptr<Env> custom_env_guard;
