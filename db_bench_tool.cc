@@ -88,12 +88,12 @@ using GFLAGS_NAMESPACE::SetUsageMessage;
 // Pliops Changes to support Put/Get
 
 static PLIOPS_DB_t pliopsDB;
-static uint8_t instanceId;
+static uint8_t databaseId;
 
-bool PliopsOpenDB(uint8_t instance)
+bool PliopsOpenDB(uint8_t database)
 {
-    instanceId = instance;
-    printf("Pilops Open DB - %d\n", instanceId);
+    databaseId = database;
+    printf("Pilops Open DB - %d\n", databaseId);
     pliopsDB = PLIOPS_OpenDB(1, NULL);
     return true;
 }
@@ -101,7 +101,7 @@ bool PliopsOpenDB(uint8_t instance)
 bool PliopsCloseDB(void)
 {
     PLIOPS_STATUS_et returnValue = PLIOPS_CloseDB(pliopsDB);
-    printf("Pilops Close DB - %d\n", instanceId);
+    printf("Pilops Close DB - %d\n", databaseId);
     if (returnValue != PLIOPS_STATUS_OK ) {
         printf(" Pliops Failed To Close The Device\n");
         return false;
@@ -113,7 +113,7 @@ int PliopsPutCommand(const char * key_buffer, size_t key_size, const char * data
 {
     PLIOPS_STATUS_et returnValue;
     char* start = const_cast<char*>(key_buffer);
-    memcpy(start, &instanceId, sizeof(instanceId));
+    memcpy(start, &databaseId, sizeof(databaseId));
     returnValue = PLIOPS_Put(pliopsDB, (void *)  key_buffer, key_size, (void *) data, data_length, false);
     return (int)returnValue;
 }
@@ -122,7 +122,7 @@ int PliopsGetCommand(const char * key_buffer, size_t key_size, const uint32_t da
 {
     PLIOPS_STATUS_et returnValue;
     char* start = const_cast<char*>(key_buffer);
-    memcpy(start, &instanceId, sizeof(instanceId));
+    memcpy(start, &databaseId, sizeof(databaseId));
     char* data = (char*) malloc(data_length * sizeof(char));
     unsigned int objectSize = 0;
     returnValue = PLIOPS_Get(pliopsDB, (void *) key_buffer, key_size, (void *) data, data_length, &objectSize);
@@ -323,7 +323,7 @@ DEFINE_int32(key_size, 16, "size of each key");
 
 DEFINE_bool(pliops_disk, false, "Enable Pliops disk");
 
-DEFINE_int32(instance, 0, "Instance/DB id");
+DEFINE_int32(database, 0, "Database id");
 
 DEFINE_int32(num_multi_db, 0,
              "Number of DBs used in the benchmark. 0 means single DB.");
@@ -2121,7 +2121,7 @@ class Benchmark {
   int value_size_;
   int key_size_;
   bool pliops_disk_;
-  uint8_t instance_;
+  uint8_t database_;
   int prefix_size_;
   int64_t keys_per_prefix_;
   int64_t entries_per_batch_;
@@ -2463,7 +2463,7 @@ class Benchmark {
         value_size_(FLAGS_value_size),
         key_size_(FLAGS_key_size),
 	pliops_disk_(FLAGS_pliops_disk),
-	instance_(FLAGS_instance),
+	database_(FLAGS_database),
         prefix_size_(FLAGS_prefix_size),
         keys_per_prefix_(FLAGS_keys_per_prefix),
         entries_per_batch_(1),
@@ -6408,7 +6408,7 @@ int db_bench_tool(int argc, char** argv) {
 
   rocksdb::Benchmark benchmark;
   if (FLAGS_pliops_disk) {
-    if (false == PliopsOpenDB(FLAGS_instance))
+    if (false == PliopsOpenDB(FLAGS_database))
       return -1;
   }
 
