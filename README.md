@@ -1,5 +1,5 @@
 # dbbench_pliops_integration
-This repository contain the files and information needed to integrate pliops PSP KV and rocksdb.
+This repository contain the files and information needed to integrate pliops PSP KV and db bench.
 
 
 Motivation
