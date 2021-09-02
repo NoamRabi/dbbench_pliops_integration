@@ -12,7 +12,7 @@ using rocksdb.
 
 Pliops KV product description
 =============================
-Pliops KV is an HW accelrator that improve the performance and capacity of SSD discs, << need more info here >>
+Pliops KV is an HW accelrator that improve the performance and capacity of SSD discs.
 
 
 
