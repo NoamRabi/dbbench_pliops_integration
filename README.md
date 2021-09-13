@@ -1,5 +1,5 @@
 # dbbench_pliops_integration
-This repository contain the files and information needed to integrate pliops PSP KV and rocksdb.
+This repository contain the files and information needed to integrate pliops PSP KV and db bench.
 
 
 Motivation
@@ -12,7 +12,7 @@ using rocksdb.
 
 Pliops KV product description
 =============================
-Pliops KV is an HW accelrator that improve the performance and capacity of SSD discs, << need more info here >>
+Pliops KV is an HW accelrator that improve the performance and capacity of SSD discs.
 
 
 
