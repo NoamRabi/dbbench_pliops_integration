@@ -1,7 +1,7 @@
 # In order to improve dbbench performance we need to enlarge the number of open files the OS is allow us to use,
 # please follow the next commands
 
-First check the number of open files the system is support by using "ulimit -n" and check the number 
+First check the number of open files the system is support by using "ulimit -n" and check if the number is smaller then 1048576.
 
 1.. Edit the file /etc/security/limits.conf
     add the following lines at the bottom of the file:
