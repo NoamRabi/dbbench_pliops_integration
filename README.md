@@ -20,7 +20,7 @@ Modify files and compilation
 ============================
 1. Clone rocks db version 6.2 (branch - origin/6.2.fb)
     1. _git clone https://github.com/facebook/rocksdb.git_
-    2. _git checkout origin/6.2.fb _
+    2. _git checkout origin/6.2.fb_
 2. Install pliops deilivery package (1.16.0.0 or higher).
 3. Install compression libraries if needed.
    1. Ubuntu: _sudo apt-get install zlib1g-dev libzstd-dev liblz4-dev_
@@ -29,13 +29,13 @@ Modify files and compilation
    1. CMakeLists.txt (to main folder)
    2. thirdparty.inc (to main folder)
    3. db_bench_tool.cc (to tools folder)
-   4. Findstorelib.cmake (to cmake/modules folder
+   4. Findstorelib.cmake (to cmake/modules folder)
 6. Find the path of the following files (part of pliops delivery, should be located at /etc/pliops):
    1. store_lib_expo.h
    2. storlib.so
 7. If the above files aren't located at '/etc/pliops' you should update their location at the following files:
    1. cmake/modules/Findstorelib.cmake - need to update the location of store_lib_expo.h [line 10] & storelib.so [line 14]
-   2. tools/db_bench_tool.cc = need to update the location of store_lib_expo.h [line 78]
+   2. tools/db_bench_tool.cc - need to update the location of store_lib_expo.h [line 78]
 8. Delete cmake cache if exist - CMakeCache.txt
 9. Create build directory - mkdir build
 10. Enter the build directory - cd build
@@ -50,10 +50,11 @@ db bench is ready !!!
 
 Known issues
 ============
-1. On non-pliops runs we may encounter issues with the number of open files, it can cause db bench to get stuck during run,
-for more details and solutions please track the instructions at increase_number_of_open_files.txt
+1. On non-pliops runs we may encounter issues with the number of open files, it will cause db bench to hang during a run,
+   for more details and solutions please track the instructions at increase_number_of_open_files.txt
 
-2. During cmake we may face linkage errors related to gflags, please track the instruction at install_shared_gflags.txt  
+2. During cmake we may face linkage errors related to "shared gflags", please track the instructions at install_shared_gflags.txt  
+
 
 
 Supported benchmarks
