@@ -3,16 +3,17 @@
 If during cmake run, you encounter errors related to gflags linkage, please track the following instructions:
 
 1. Clone gflags from github - git clone https://github.com/gflags/gflags.git
-2. Edit CmakeLists.txt file, enable shared libraries:
+2. Enter gflags library
+3. Edit CmakeLists.txt file, enable shared libraries (OFF->ON):
 
    	gflags_define (BOOL BUILD_SHARED_LIBS          "Request build of shared libraries."                                       ON  ON)
-        gflags_define (BOOL BUILD_STATIC_LIBS          "Request build of static libraries (default if BUILD_SHARED_LIBS is OFF)." ON  ON)
+      gflags_define (BOOL BUILD_STATIC_LIBS          "Request build of static libraries (default if BUILD_SHARED_LIBS is OFF)." ON  ON)
 
-3. Clean cmake cache - rm CmakeCache.txt
-4. Create build directory - mkdir build
-5. Enter build directoy - cd build
-4. Run cmake for gflags - cmake ..
-5. Run make for gflags - make -j
-6. Run make install - sudo make install
+5. Clean cmake cache - rm CmakeCache.txt
+6. Create build directory - mkdir build
+7. Enter build directoy - cd build
+8. Run cmake for gflags - cmake ..
+9. Run make for gflags - make -j
+10. Run make install - sudo make install
 
 If all stages were completed succesfully please return to the main steps
