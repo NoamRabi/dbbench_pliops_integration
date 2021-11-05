@@ -2,7 +2,7 @@
 # please follow the following commands
 
 
-First check the ncurrent umber of open files the system is support by using "ulimit -n" and check the number is 1048576 or above
+First check the current number of open files the system is support by using "ulimit -n" and check the number is 1048576 or above
 if not:
 
 1. Edit the file /etc/security/limits.conf
