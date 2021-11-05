@@ -1,9 +1,11 @@
-# In order to improve dbbench performance we need to enlarge the number of open files the OS is allow us to use,
-# please follow the next commands
+# In order to enable rocksdb over large capacity we need to enlarge the number of open files in parallel that the OS support,
+# please follow the following commands
 
-First check the number of open files the system is support by using "ulimit -n" and check if the number is smaller then 1048576.
 
-1.. Edit the file /etc/security/limits.conf
+First check the ncurrent umber of open files the system is support by using "ulimit -n" and check the number is 1048576 or above
+if not:
+
+1. Edit the file /etc/security/limits.conf
     add the following lines at the bottom of the file:
   	* soft     nproc          1048576
 	* hard     nproc          1048576
@@ -14,13 +16,13 @@ First check the number of open files the system is support by using "ulimit -n" 
 	root soft     nofile         1048576
 	root hard     nofile         1048576   
 2. Run the command "sudo sh -c 'echo 1048576 > /proc/sys/fs/file-max'"
-3. Edit the files /etc/systemd/user.conf and /etc/systemd/system.conf
-    change the value of DefaultLimitNOFILE to 1048576, and uncomment the line
+3. Edit the files /etc/systemd/user.conf and /etc/systemd/system.conf:
+    change the value of DefaultLimitNOFILE to 1048576, and uncomment the line.
 4. Ubuntu only:
     A. Edit the file /etc/sysctl.conf 
        change the value of fs.file-max to 1048576
     B. Edit the following file /etc/pam.d/common-session
        add the following line - "session required pam_limits.so"
 
-5. Reboot in order to the configuration changes to take affect
-6. after reboot check the configuration has change by check "ulimit -n" again
+5. Reboot the server in order that the configuration changes will take affect.
+6. After reboot check the configuration has changed with "ulimit -n" again.
