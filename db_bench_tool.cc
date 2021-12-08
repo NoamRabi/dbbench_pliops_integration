@@ -3593,7 +3593,9 @@ void VerifyDBFromDB(std::string& truth_db_name) {
     options.level0_slowdown_writes_trigger =
       FLAGS_level0_slowdown_writes_trigger;
     options.compression = FLAGS_compression_type_e;
-    options.bottommost_compression = FLAGS_bottommost_compression_e;
+    if (FLAGS_bottommost_compression_e != rocksdb::kDisableCompressionOption) { 
+	options.bottommost_compression = FLAGS_bottommost_compression_e;
+    }
     options.sample_for_compression = FLAGS_sample_for_compression;
     options.WAL_ttl_seconds = FLAGS_wal_ttl_seconds;
     options.WAL_size_limit_MB = FLAGS_wal_size_limit_MB;
