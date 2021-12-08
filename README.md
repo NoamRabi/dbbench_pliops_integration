@@ -5,7 +5,7 @@ This repository contain the files and information needed to integrate pliops PSP
 Motivation
 ==========
 This repository target is to modify the exist rocksdb repository in order to have the ability to estimate the pliops KV product,
-after performing those installation steps you could run db bench tool with flag called pliops_disc, if its value will be '0' the 
+after performing those installation steps you could run db bench tool with flag called pliops_disk, if its value will be '0' the 
 tool will run with rocksdb as usual, if its value will be '1' the tool will run using pliops KV software and hardware without 
 using rocksdb.
 
