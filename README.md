@@ -18,9 +18,9 @@ Pliops KV is an HW accelrator that improve the performance and capacity of SSD d
 
 Modify files and compilation
 ============================
-1. Clone rocks db version 6.2 (branch - origin/6.2.fb)
+1. Clone rocks db version 6.15 (branch - origin/6.15.fb)
     1. _git clone https://github.com/facebook/rocksdb.git_
-    2. _git checkout origin/6.2.fb_
+    2. _git checkout origin/6.15.fb_
 2. Install pliops deilivery package (1.16.0.0 or higher).
 3. Install compression libraries if needed.
    1. Ubuntu: _sudo apt-get install zlib1g-dev libzstd-dev liblz4-dev_
@@ -38,9 +38,9 @@ Modify files and compilation
    2. tools/db_bench_tool.cc - need to update the location of store_lib_expo.h [line 78]
 8. Delete cmake cache if exist - CMakeCache.txt
 9. Create build directory - mkdir build
-10. Enter the build directory - cd build
-11. Run cmake (cmake ..)
-12. Run make (make -j )
+10. Enter the build directory - cd build/
+11. Run cmake: cmake ../ -DCMAKE_BUILD_TYPE=Release
+12. Run make: make -j 
 13. Create folders for dbbench db and wal files
     1. sudo mkdir -p /media/pliops/dbbench/db
     2. sudo mkdir -p /media/pliops/dbbench/wal
