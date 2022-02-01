@@ -32,7 +32,7 @@ Modify files and compilation
    4. Findstorelib.cmake (to cmake/modules folder)
 6. Find the path of the following files (part of pliops delivery, should be located at /etc/pliops):
    1. store_lib_expo.h
-   2. libstorlib.so
+   2. libstorelib.so
 7. If the above files aren't located at '/etc/pliops' you should update their location at the following files:
    1. cmake/modules/Findstorelib.cmake - need to update the location of store_lib_expo.h [line 10] & storelib.so [line 14]
    2. tools/db_bench_tool.cc - need to update the location of store_lib_expo.h [line 78]
